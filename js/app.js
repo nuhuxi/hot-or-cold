@@ -6,7 +6,7 @@ $(document).ready(function () {
 		inputString,
 		theGuess,
 		isItDecimal,
-		userJustWon;
+		userJustWon = false;
 
 	console.log('Resetting game at the top of the page');
 	resetGame();
@@ -52,10 +52,11 @@ $(document).ready(function () {
 		$("#guessList").find("li").remove();
 		$("#feedback").text("Make Your Guess!");
 		document.getElementById("feedback").style.backgroundColor ="#32CC3E";
+		$('form')[0].reset();
 
 		/*---Generate a new random number ---*/
 		randomNumber = Math.floor((Math.random()*100)+1);
-		userJustWon = false;
+		userJustWon === false;
 		console.log('The random number is '+ randomNumber);
 		console.log('resetGame - userJustWon is '+ userJustWon);
 	};
@@ -81,7 +82,7 @@ $(document).ready(function () {
   	};
 
   	function isTheGuessRight() {
-  		console.log('Inside is TheGuessRight');
+  		console.log('Inside isTheGuessRight');
   		console.log('The guess is ' + theGuess);
   		numGuesses++;
 		$('#count').text(numGuesses);
