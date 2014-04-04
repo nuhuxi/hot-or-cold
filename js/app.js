@@ -6,7 +6,8 @@ $(document).ready(function () {
 		inputString,
 		theGuess,
 		isItDecimal,
-		lastNumberGuessed;
+		userJustWon;
+
 	console.log('Resetting game at the top of the page');
 	resetGame();
 
@@ -23,16 +24,17 @@ $(document).ready(function () {
   	/*--- User makes a guess ---*/
 	$("#guessButton").click(function (event) {
 		event.preventDefault();
-		numGuesses++;
-		$('#count').text(numGuesses);
-		inputString = $('#userGuess').val();
-		isItDecimal = inputString.indexOf('.');
-		theGuess = parseInt(inputString);
-
-		$('form')[0].reset();
-		validateNumber(isItDecimal, theGuess);
-		$('#guessList').append("<li>" + theGuess + "</li>");
-		isTheGuessRight();
+		console.log('Inside #guessButton - userJustWon is '+ userJustWon);
+		if(userJustWon === false){
+			console.log('Inside #guessButton-if - userJustWon is '+ userJustWon);
+			inputString = $('#userGuess').val();
+			isItDecimal = inputString.indexOf('.');
+			theGuess = parseInt(inputString);
+			$('form')[0].reset();
+			validateNumber(isItDecimal, theGuess);
+			$('#guessList').append("<li>" + theGuess + "</li>");
+			isTheGuessRight();
+		}
 	});
 
 	/*--- User wants a new game. ---*/
@@ -48,10 +50,14 @@ $(document).ready(function () {
 		/*--- Reset the DOM ---*/
 		$('#count').text(numGuesses);
 		$("#guessList").find("li").remove();
+		$("#feedback").text("Make Your Guess!");
+		document.getElementById("feedback").style.backgroundColor ="#32CC3E";
 
 		/*---Generate a new random number ---*/
-		randomNumber = Math.floor((Math.random()*100)+1)
+		randomNumber = Math.floor((Math.random()*100)+1);
+		userJustWon = false;
 		console.log('The random number is '+ randomNumber);
+		console.log('resetGame - userJustWon is '+ userJustWon);
 	};
 
   	function validateNumber(isItDecimal,inputNumber) {
@@ -75,7 +81,10 @@ $(document).ready(function () {
   	};
 
   	function isTheGuessRight() {
+  		console.log('Inside is TheGuessRight');
   		console.log('The guess is ' + theGuess);
+  		numGuesses++;
+		$('#count').text(numGuesses);
 
 		/* The following nested if statement is complicated. It would have been better done with a "case" statement
 			but that is not available in javascript. 
@@ -93,7 +102,8 @@ $(document).ready(function () {
 
 		if(Math.abs(randomNumber-theGuess)===0) { /* Case 1 */
 			$("#feedback").text("You WIN!!!");
-			document.getElementById("feedback").style.backgroundColor ="#FF3A69";	
+			document.getElementById("feedback").style.backgroundColor ="#FF3A69";
+			userJustWon = true;
 		}else{ 
 			if(Math.abs(randomNumber-theGuess) > 70) { /* Case 2 */
 				$("#feedback").text("Brrr...Cold");
@@ -126,7 +136,7 @@ $(document).ready(function () {
 				} 
 			}
 		} 
-	};
+	}; 
 });
 
 
