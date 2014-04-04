@@ -6,7 +6,8 @@ $(document).ready(function () {
 		inputString,
 		theGuess,
 		isItDecimal,
-		userJustWon = false;
+		userJustWon = false, 
+		inputIsValid = false;
 
 	console.log('Resetting game at the top of the page');
 	resetGame();
@@ -32,8 +33,13 @@ $(document).ready(function () {
 			theGuess = parseInt(inputString);
 			$('form')[0].reset();
 			validateNumber(isItDecimal, theGuess);
-			$('#guessList').append("<li>" + theGuess + "</li>");
-			isTheGuessRight();
+			if(inputIsValid === true){
+				isTheGuessRight();
+			}
+			inputIsValid = false;
+		} else{
+			$("#feedback").text("Click '+New Game' to play again");
+			document.getElementById("feedback").style.backgroundColor ="#000000";
 		}
 	});
 
@@ -65,6 +71,7 @@ $(document).ready(function () {
   		if (isItDecimal==-1) {
 			if(!isNaN(inputNumber) && inputNumber!==''){
 					if(inputNumber > 0 && inputNumber < 101){
+						inputIsValid = true;
 					} else{
 						invalidInput();
 					}
@@ -86,6 +93,7 @@ $(document).ready(function () {
   		console.log('The guess is ' + theGuess);
   		numGuesses++;
 		$('#count').text(numGuesses);
+		$('#guessList').append("<li>" + theGuess + "</li>");
 
 		/* The following nested if statement is complicated. It would have been better done with a "case" statement
 			but that is not available in javascript. 
@@ -123,7 +131,7 @@ $(document).ready(function () {
 					}else { /* else number 4 */
 
 						if(Math.abs(randomNumber-theGuess) > 10) {/* Case 5 */
-							$("#feedback").text('Really warm...');
+							$("#feedback").text('Pretty warm...');
 							document.getElementById("feedback").style.backgroundColor ="#CC3282";
 
 						}else { /* Case 6*/
