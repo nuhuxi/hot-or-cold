@@ -61,7 +61,7 @@ $(document).ready(function () {
 
 		/*---Generate a new random number ---*/
 		randomNumber = Math.floor((Math.random()*100)+1);
-		userJustWon === false;
+		userJustWon = false;
 		console.log('The random number is '+ randomNumber);
 		console.log('resetGame - userJustWon is '+ userJustWon);
 	};
